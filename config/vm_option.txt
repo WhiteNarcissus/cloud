@@ -1,0 +1,1 @@
+-Xms150m -Xmx150m -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=128m                                                  

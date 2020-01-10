@@ -1,0 +1,186 @@
+{
+  "parameters": {
+    "Td_query_6": {
+      "length": 0,
+      "parameterName": "Td_query_6",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_query_6",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": 0
+    },
+    "Td_query_w": {
+      "length": 0,
+      "parameterName": "Td_query_w",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_query_w",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": 0
+    },
+    "Td_fztj": {
+      "length": 0,
+      "parameterName": "Td_fztj",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_fztj",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": "0"
+    },
+    "Td_query_12_fy": {
+      "length": 0,
+      "parameterName": "Td_query_12_fy",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_query_12_fy",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": 0
+    },
+    "Td_xdyq": {
+      "length": 0,
+      "parameterName": "Td_xdyq",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_xdyq",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": "0"
+    },
+    "Td_query_12": {
+      "length": 0,
+      "parameterName": "Td_query_12",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_query_12",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": 0
+    },
+    "Td_score": {
+      "length": 0,
+      "parameterName": "Td_score",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_score",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": 10
+    },
+    "Td_gfxgz": {
+      "length": 0,
+      "parameterName": "Td_gfxgz",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_gfxgz",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": "0"
+    },
+    "Td_status_11007": {
+      "length": 0,
+      "parameterName": "Td_status_11007",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_status_11007",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": "1"
+    },
+    "Td_status_11006": {
+      "length": 0,
+      "parameterName": "Td_status_11006",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_status_11006",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": "1"
+    },
+    "Td_fyzx": {
+      "length": 0,
+      "parameterName": "Td_fyzx",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_fyzx",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": "0"
+    },
+    "Td_query_1": {
+      "length": 0,
+      "parameterName": "Td_query_1",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_query_1",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": 0
+    },
+    "Td_fysx": {
+      "length": 0,
+      "parameterName": "Td_fysx",
+      "parameterType": "STRING",
+      "required": false,
+      "source": {
+        "attrName": "Td_fysx",
+        "codeSource": "tongdun11006",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11006Info.extInfo.coins"
+      },
+      "value": "0"
+    },
+    "Td_query_3": {
+      "length": 0,
+      "parameterName": "Td_query_3",
+      "parameterType": "INT",
+      "required": false,
+      "source": {
+        "attrName": "Td_query_3",
+        "codeSource": "tongdun11007",
+        "moduleName": "commonThirdPartyProxy",
+        "returnTemplate": "tongdun11007Info.extInfo.coins"
+      },
+      "value": 0
+    }
+  }
+}
