@@ -4,13 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * 项目：gykdh1.10
- * 版    权: Copyright(C) 2011-2020,  gzcb. All rights reserved
- * 类名：RuleLogViewerDTO
- * 描述：规则日志匹配，结果和条件显示
- * 创建人：liting    创建日期：2017年6月7日   版本：
- * 历史
+ *
  * <修改人>   <修改日期 >   <修改内容>
  */
 public class RuleLogViewerDTO {

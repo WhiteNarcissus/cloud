@@ -1,34 +1,22 @@
 package rule.service.impl;
 
-import com.gzcb.creditcard.gykdh.common.contants.ResultCodeContants;
-import com.gzcb.creditcard.gykdh.common.utils.StringUtils;
-import com.gzcb.creditcard.gykdh.dao.rule.*;
-import com.gzcb.creditcard.gykdh.dto.PageObjectDTO;
-import com.gzcb.creditcard.gykdh.dto.PageReturnDTO;
-import com.gzcb.creditcard.gykdh.dto.ReturnObjectDTO;
-import com.gzcb.creditcard.gykdh.rule.RuleContants;
-import com.gzcb.creditcard.gykdh.rule.dto.RuleLogDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.config.RuleBeanEntry;
-import com.gzcb.creditcard.gykdh.rule.dto.config.RuleFieldEntry;
-import com.gzcb.creditcard.gykdh.rule.dto.config.RuleResultEntry;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleLogViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleRowViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.entity.*;
-import com.gzcb.creditcard.gykdh.rule.helper.RuleConfigHelper;
-import com.gzcb.creditcard.gykdh.rule.helper.RuleEditHelper;
-import com.gzcb.creditcard.gykdh.rule.helper.RuleRuntimeHelper;
-import com.gzcb.creditcard.gykdh.rule.service.RuleService;
+
+import common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import rule.RuleContants;
+import rule.entity.RuleDef;
+import rule.entity.RuleRow;
+import rule.entity.RuleTable;
+import rule.service.RuleService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service("ruleService")
-public class RuleServiceImpl implements RuleService{
+public class RuleServiceImpl implements RuleService {
 	
 	private static Logger logger=LoggerFactory.getLogger(RuleServiceImpl.class);
 	
@@ -72,9 +60,9 @@ public class RuleServiceImpl implements RuleService{
 	}
 
 	@Override
-	public List<RuleTable> queryRuleTableByRuleId(Long ruleId,String status) {	
+	public List<RuleTable> queryRuleTableByRuleId(Long ruleId, String status) {
 		List<RuleTable> ruleTableList=null;
-		if(RuleContants.TABLE_STATUS_PUBLISH.equals(status)){					
+		if(RuleContants.TABLE_STATUS_PUBLISH.equals(status)){
 			ruleTableList=ruleTableMapper.selectRuleTableByRuleId(ruleId);
 		}else if(RuleContants.TABLE_STATUS_EDIT.equals(status)){					
 			ruleTableList=ruleTableMapper.selectRuleTableEditByRuleId(ruleId);
@@ -130,7 +118,7 @@ public class RuleServiceImpl implements RuleService{
 	}
 	
 	@Override
-    public List<RuleRow> queryRuleRowByTableId(Long tableId){
+    public List<Rulcjm u7yyyyyyyyyeRow> queryRuleRowByTableId(Long tableId){
 		return ruleRowMapper.selectRuleRowByTableId(tableId);	
 	}
 	

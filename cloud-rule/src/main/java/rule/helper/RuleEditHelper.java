@@ -7,6 +7,13 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rule.dto.config.RuleFieldEntry;
+import rule.dto.config.RuleResultEntry;
+import rule.dto.viewer.RuleRowFieldViewerDTO;
+import rule.dto.viewer.RuleRowResultViewerDTO;
+import rule.dto.viewer.RuleRowViewerDTO;
+import rule.entity.IRuleRow;
+import rule.entity.RuleRowEdit;
 
 import java.util.*;
 
@@ -115,7 +122,7 @@ public class RuleEditHelper {
 	 * @throws Exception
 	 */
 	public static List<RuleRowEdit> convertRuleRow(Long tableId, Map<String, RuleFieldEntry> fieldMap,
-			Map<String, String[]> valuesMap, Map<String, String[]> operatersMap, Map<String, String[]> resultMap) {
+												   Map<String, String[]> valuesMap, Map<String, String[]> operatersMap, Map<String, String[]> resultMap) {
 		List<RuleRowEdit> rowList = new LinkedList<RuleRowEdit>();
 
 		// 每行一共有多少个字段

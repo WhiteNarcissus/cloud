@@ -1,13 +1,12 @@
 package rule.service;
 
-import com.gzcb.creditcard.gykdh.dto.PageObjectDTO;
-import com.gzcb.creditcard.gykdh.dto.PageReturnDTO;
-import com.gzcb.creditcard.gykdh.dto.ReturnObjectDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.RuleLogDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.config.RuleFieldEntry;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleLogViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleRowViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.entity.*;
+
+
+import rule.dto.RuleLogDTO;
+import rule.dto.config.RuleFieldEntry;
+import rule.dto.viewer.RuleLogViewerDTO;
+import rule.dto.viewer.RuleRowViewerDTO;
+import rule.entity.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public interface RuleService {
 
 	public RuleTable getRuleTable(Long tableId, String status);
 
-	public ReturnObjectDTO addRuleTable(RuleTable ruleTable);
+//	public ReturnObjectDTO addRuleTable(RuleTable ruleTable);
 
 	public List<RuleRow> queryRuleRowByTableId(Long tableId);
 
@@ -43,12 +42,12 @@ public interface RuleService {
 
 	public void deploy(final Long tableId, final Long userId);
 
-	public PageReturnDTO<RuleLogDTO> queryRuleLog(RuleLogCriteria log, PageObjectDTO pageObjectDTO);
+//	public PageReturnDTO<RuleLogDTO> queryRuleLog(RuleLogCriteria log, PageObjectDTO pageObjectDTO);
 
 	public List<HisRuleDef> queryHisRuleDefByRuleIdList(List<Long> ruleIdList);
 
 	public void addRuleLogList(List<RuleLog> logList);
 
 
-	public Map<String,RuleLogViewerDTO> formatRuleLogViwerDTO(String ruleName, String ruleScript);
+	public Map<String, RuleLogViewerDTO> formatRuleLogViwerDTO(String ruleName, String ruleScript);
 }

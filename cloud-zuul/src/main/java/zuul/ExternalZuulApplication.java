@@ -1,8 +1,9 @@
 package zuul;
 
 
-import io.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
+
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -24,7 +25,7 @@ import zuul.filter.AccessFilter;
 /**
  * Hello world!
  */
-@SpringBootApplication(scanBasePackages = {"zuul","com.cardapprove.xshq"}, exclude = {DataSourceAutoConfiguration.class, SpringBootConfiguration.class})
+@SpringBootApplication(scanBasePackages = {"zuul"}, exclude = {DataSourceAutoConfiguration.class, SpringBootConfiguration.class})
 @EnableZuulProxy
 @EnableDiscoveryClient
 @RefreshScope

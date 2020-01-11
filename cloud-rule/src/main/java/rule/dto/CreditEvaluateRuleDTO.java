@@ -3,14 +3,7 @@ package rule.dto;
 import java.math.BigDecimal;
 
 /**
- * 
- * 项目：gykdh1.10
- * 版    权: Copyright(C) 2011-2020,  gzcb. All rights reserved
- * 类名：CreditEvaluateRuleDTO
- * 描述：信用评估需要值对象
- * 创建人：liting    创建日期：2017年5月23日   版本：
- * 历史
- * <修改人>   <修改日期 >   <修改内容>
+ *
  */
 public class CreditEvaluateRuleDTO {
 	

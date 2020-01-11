@@ -4,9 +4,6 @@ package rule.ruleBean;
 import rule.AbstractRuleBean;
 
 /****
- *@author songshuai
- *@Description:
- *@date 2018/7/19 13:40
  */
 public class ChangeQuotaRuleBean extends AbstractRuleBean {
     /**

@@ -3,14 +3,7 @@ package rule.dto;
 import java.util.List;
 
 /**
- * 
- * 项目：gykdh1.10
- * 版    权: Copyright(C) 2011-2020,  gzcb. All rights reserved
- * 类名：CreditEvaluateRuleResultDTO
- * 描述：信用评估规则结果
- * 创建人：liting    创建日期：2017年5月25日   版本：
- * 历史
- * <修改人>   <修改日期 >   <修改内容>
+ *
  */
 public class CreditEvaluateRuleResultDTO {
 
