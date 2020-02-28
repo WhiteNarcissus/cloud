@@ -20,6 +20,7 @@
         <module>cloud-case</module>
         <module>cloud-ribbon</module>
         <module>cloud-feign</module>
+        <module>cloud-orders</module>
     </modules>
 
     <properties>
