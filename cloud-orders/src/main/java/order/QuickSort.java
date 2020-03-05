@@ -49,7 +49,7 @@ public class QuickSort {
 
     public  void QuickSort(int[] arry, int left, int right) {
         //左边索引小于右边，则还未排序完成 　　
-        arry = new int[]{0,1,4,3};
+
 
         if (left < right) {
             //取中间的元素作为比较基准，小于他的往左边移，大于他的往右边移 　　
