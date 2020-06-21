@@ -16,16 +16,11 @@ import ribbon.service.RibbonService;
 public class TestController {
     @Autowired
     RibbonService ribbonService ;
-    @Autowired
-    HiService hiService ;
+
 
     @GetMapping("/hi")
     String  test(@RequestParam (required = false,defaultValue = "forezp") String name) {
         return ribbonService.hi(name);
     }
 
-    @GetMapping("/testFeign")
-    String  testFeign(@RequestParam (required = false,defaultValue = "testFeign") String name) {
-        return hiService.sayHi(name);
-    }
 }

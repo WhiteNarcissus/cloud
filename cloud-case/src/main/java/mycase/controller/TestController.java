@@ -2,9 +2,7 @@ package mycase.controller;
 
 import feign.interfaces.AuthorizeFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,14 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TestController {
-    @Autowired
-    AuthorizeFeign authorizeFeign;
 
-  @RequestMapping("/a")
-   public String  a(){
 
-      return authorizeFeign.a("");
-  }
 
     @RequestMapping("/c")
     public String  c(){
@@ -30,7 +22,6 @@ public class TestController {
 
     @RequestMapping("/b")
     public String  b(){
-
         return "b-case";
     }
 

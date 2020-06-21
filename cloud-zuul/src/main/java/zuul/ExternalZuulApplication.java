@@ -19,13 +19,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import zuul.filter.AccessFilter;
 
+
 //import com.cardapprove.xshq.plugins.comptroller.ComptrollerInterceptor;
 //import com.cardapprove.xshq.plugins.comptroller.strategy.impl.SnowFlakeIdGenerateInvoker;
+
 
 /**
  * Hello world!
  */
-@SpringBootApplication(scanBasePackages = {"zuul"}, exclude = {DataSourceAutoConfiguration.class, SpringBootConfiguration.class})
+//@SpringBootApplication(scanBasePackages = {"zuul"}, exclude = {DataSourceAutoConfiguration.class, SpringBootConfiguration.class})
+@SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
 @RefreshScope
@@ -65,8 +68,8 @@ public class ExternalZuulApplication extends SpringBootServletInitializer {
     }
 
     @Bean
-    public AccessFilter accessFilter() {
-        return new AccessFilter();
+   public AccessFilter accessFilter() {
+       return new AccessFilter();
     }
 
 }
