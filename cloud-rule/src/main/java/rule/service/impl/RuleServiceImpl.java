@@ -1,16 +1,30 @@
 package rule.service.impl;
 
 
+import common.PageObjectDTO;
+import common.PageReturnDTO;
+import common.ResultCodeContants;
+import common.ReturnObjectDTO;
 import common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rule.RuleContants;
-import rule.entity.RuleDef;
-import rule.entity.RuleRow;
-import rule.entity.RuleTable;
+import rule.dao.*;
+import rule.dto.RuleLogDTO;
+import rule.dto.config.RuleBeanEntry;
+import rule.dto.config.RuleFieldEntry;
+import rule.dto.config.RuleResultEntry;
+import rule.dto.viewer.RuleLogViewerDTO;
+import rule.dto.viewer.RuleRowViewerDTO;
+import rule.entity.*;
+import rule.helper.RuleConfigHelper;
+import rule.helper.RuleEditHelper;
+import rule.helper.RuleRuntimeHelper;
 import rule.service.RuleService;
+
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -50,7 +64,7 @@ public class RuleServiceImpl implements RuleService {
 	@Override
 	public List<RuleDef> queryAllRule() {
 		
-		return ruleDefMapper.selectAllRule();
+		return ruleDefMapper.selectAll();
 	}
 
 	@Override
@@ -63,9 +77,13 @@ public class RuleServiceImpl implements RuleService {
 	public List<RuleTable> queryRuleTableByRuleId(Long ruleId, String status) {
 		List<RuleTable> ruleTableList=null;
 		if(RuleContants.TABLE_STATUS_PUBLISH.equals(status)){
-			ruleTableList=ruleTableMapper.selectRuleTableByRuleId(ruleId);
-		}else if(RuleContants.TABLE_STATUS_EDIT.equals(status)){					
-			ruleTableList=ruleTableMapper.selectRuleTableEditByRuleId(ruleId);
+			RuleTable ruleTable = new RuleTable();
+			ruleTable.setRuleId(ruleId);
+			ruleTableList=ruleTableMapper.select(ruleTable);
+		}else if(RuleContants.TABLE_STATUS_EDIT.equals(status)){
+//			RuleTableEdit ruleTableEdit = new RuleTableEdit();
+//			ruleTableEdit.setTableId(ruleId);
+//			ruleTableList=ruleTableMapper.selectRuleTableEditByRuleId(ruleId);
 		}else{
 			ruleTableList=new ArrayList<RuleTable>();
 		}
@@ -74,8 +92,10 @@ public class RuleServiceImpl implements RuleService {
 	}
 	
 	@Override
-	public List<RuleTable> queryRuleTableByName(Long ruleId,String name) {						
-		return ruleTableMapper.selectRuleTableByRuleIdAndName(ruleId, name);
+	public List<RuleTable> queryRuleTableByName(Long ruleId,String name) {
+
+//		return ruleTableMapper.selectRuleTableByRuleIdAndName(ruleId, name);
+		return null ;
 	}
 	
 	@Override
@@ -98,7 +118,7 @@ public class RuleServiceImpl implements RuleService {
 				result.setMessage("该规则表名重复");
 			} else {
 				ruleTable.setCreatedTime(new Date());
-				ruleTableMapper.insertEdit(ruleTable);
+				ruleTableMapper.insert(ruleTable);
 				result.setResult(ruleTable);				
 			}
 
@@ -112,14 +132,16 @@ public class RuleServiceImpl implements RuleService {
 		if(RuleContants.TABLE_STATUS_PUBLISH.equals(status)){					
 			ruleTable=ruleTableMapper.selectByPrimaryKey(tableId);
 		}else if(RuleContants.TABLE_STATUS_EDIT.equals(status)){					
-			ruleTable=ruleTableMapper.selectRuleTableEditByPrimaryKey(tableId);
+//			ruleTable=ruleTableMapper.selectRuleTableEditByPrimaryKey(tableId);
 		}
 		return ruleTable;
 	}
 	
 	@Override
-    public List<Rulcjm u7yyyyyyyyyeRow> queryRuleRowByTableId(Long tableId){
-		return ruleRowMapper.selectRuleRowByTableId(tableId);	
+    public List<RuleRow> queryRuleRowByTableId(Long tableId){
+		     RuleRow ruleRow =new RuleRow();
+		     ruleRow.setTableId(tableId);
+		return ruleRowMapper.select(ruleRow);
 	}
 	
 	/**
@@ -154,12 +176,15 @@ public class RuleServiceImpl implements RuleService {
 		ruleTableEdit.setResultScript(resultStr);
 		ruleTableEdit.setTableStatus(RuleContants.TABLE_STATUS_EDIT);
 		if(isNewTableEdit){
-			ruleTableMapper.insertEdit(ruleTableEdit);
+		//	ruleTableMapper.insertEdit(ruleTableEdit);
 		}else{
-			ruleTableMapper.updateEditByPrimaryKey(ruleTableEdit);
+		//	ruleTableMapper.updateEditByPrimaryKey(ruleTableEdit);
 		}
-				
-		List<RuleRowEdit> rowEditListOld=ruleRowEditMapper.selectByTableId(tableId)	;	
+
+		 RuleRowEdit ruleRowEdit = new RuleRowEdit();
+		 ruleRowEdit.setTableId(tableId);
+
+		List<RuleRowEdit> rowEditListOld=ruleRowEditMapper.select(ruleRowEdit)	;
 		Map<Long,RuleRowEdit> rowEditListOldMap=new HashMap<Long,RuleRowEdit>();
 		if(rowEditListOld!=null && rowEditListOld.size()>0){
 			for(RuleRowEdit edit:rowEditListOld){
@@ -170,7 +195,7 @@ public class RuleServiceImpl implements RuleService {
 		for(RuleRowEdit edit:rowEditList){
 			RuleRowEdit editOld=rowEditListOldMap.get(edit.getRowId());
 			if(editOld!=null){
-				ruleRowEditMapper.updateByPrimaryKeyWithBLOBs(edit);
+				ruleRowEditMapper.updateByPrimaryKey(edit);
 			}else{
 				ruleRowEditMapper.insert(edit);
 			}
@@ -184,8 +209,12 @@ public class RuleServiceImpl implements RuleService {
 	@Override
     @Transactional
 	public void deleteEditRule(Long tableId){
-		ruleRowEditMapper.deleteByTableId(tableId);
-		ruleTableMapper.deleteEditByPrimaryKey(tableId);					
+		RuleRowEdit ruleRowEdit = new RuleRowEdit();
+		ruleRowEdit.setTableId(tableId);
+		ruleRowEditMapper.delete(ruleRowEdit);
+		RuleTable ruleTable = new RuleTable();
+		ruleTable.setTableId(tableId);
+//		ruleTableMapper.delete(ruleTable);
 	}
 
 	/**
@@ -197,13 +226,19 @@ public class RuleServiceImpl implements RuleService {
 	public void deletePublishedRule(final Long tableId , final Long userId){
 
 		RuleTable ruleTable = ruleTableMapper.selectByPrimaryKey(tableId);
-		List<RuleTable> tableList = ruleTableMapper.selectRuleTableByRuleId(ruleTable.getRuleId());
+		RuleTable ruleTabl = new RuleTable();
+		ruleTabl.setRuleId(ruleTable.getRuleId());
+		ruleTableMapper.select(ruleTabl);
+		List<RuleTable> tableList = ruleTableMapper.select(ruleTabl);
 
 		RuleTableHistoric ruleTableHis = new RuleTableHistoric(ruleTable);
 		ruleTableHis.setRemoveUser(userId);
 
-		List<RuleRow> rowList = ruleRowMapper.selectRuleRowByTableId(tableId);
-		ruleRowMapper.deleteByTableId(tableId);
+		List<RuleRow> rowList =null ; //ruleRowMapper.selectRuleRowByTableId(tableId);
+
+		RuleRow ruleRow =  new RuleRow();
+		ruleRow.setTableId(tableId);
+		ruleRowMapper.delete(ruleRow);
 
 		for (RuleRow row : rowList) {
 			RuleRowHistoric rowHis = new RuleRowHistoric(row);
@@ -246,7 +281,9 @@ public class RuleServiceImpl implements RuleService {
 		List<IRuleRow> ruleRows =new ArrayList<IRuleRow>();
 		
 		if(tableEdit != null){
-			List<RuleRowEdit> ruleRowEditList=ruleRowEditMapper.selectByTableId(tableId);
+			RuleRowEdit rRowEdit = new RuleRowEdit();
+			rRowEdit.setTableId(tableId);
+			List<RuleRowEdit> ruleRowEditList=ruleRowEditMapper.select(rRowEdit);
 			if(ruleRowEditList!=null){
 				for(RuleRowEdit ruleRowEdit:ruleRowEditList){
 					IRuleRow iRuleRow=(IRuleRow)ruleRowEdit;
@@ -255,7 +292,10 @@ public class RuleServiceImpl implements RuleService {
 			}
 			
 		}else{
-			List<RuleRow> ruleRowList=ruleRowMapper.selectRuleRowByTableId(tableId);
+			RuleRow rRow = new RuleRow();
+			rRow.setTableId(tableId);
+
+			List<RuleRow> ruleRowList=ruleRowMapper.select(rRow);
 			if(ruleRowList!=null){
 				for(RuleRow ruleRow:ruleRowList){
 					IRuleRow iRuleRow=(IRuleRow)ruleRow;
@@ -297,13 +337,17 @@ public class RuleServiceImpl implements RuleService {
 		
 		RuleTable ruleTableEditOld=this.getRuleTable(ruleTable.getTableId(), RuleContants.TABLE_STATUS_EDIT);
 		if(ruleTableEditOld==null){
-			ruleTableMapper.insertEdit(ruleTable);
+			ruleTableMapper.insert(ruleTable);
+			//ruleTableMapper.insertEdit(ruleTable);
 		}else{
-			ruleTableMapper.updateEditByPrimaryKey(ruleTable);
+			ruleTableMapper.updateByPrimaryKey(ruleTable);
+			//ruleTableMapper.updateEditByPrimaryKey(ruleTable);
 		}
-		
-		
-		ruleRowEditMapper.deleteByTableId(ruleTable.getTableId());
+
+		RuleRowEdit rRowEdit = new RuleRowEdit();
+		rRowEdit.setTableId(ruleTable.getTableId());
+		ruleRowEditMapper.delete(rRowEdit);
+	   //	ruleRowEditMapper.deleteByTableId(ruleTable.getTableId());
 		for(RuleRowEdit ruleRowEdit:ruleRowList){
 			ruleRowEditMapper.insert(ruleRowEdit);
 		}
@@ -328,11 +372,17 @@ public class RuleServiceImpl implements RuleService {
 				RuleRowHistoric rowHis = new RuleRowHistoric(ruleRow);
 				ruleRowHistoricMapper.insert(rowHis);
 			}
-			ruleRowMapper.deleteByTableId(tableId);
+			RuleRow drRow = new RuleRow();
+			drRow.setTableId(tableId);
+			ruleRowMapper.delete(drRow);
+			//ruleRowMapper.deleteByTableId(tableId);
 			ruleTableMapper.deleteByPrimaryKey(tableId);
 		}
 
-		List<RuleRowEdit> rowEditList = ruleRowEditMapper.selectByTableId(tableId);
+		RuleRowEdit rEdit = new RuleRowEdit();
+		rEdit.setTableId(tableId);
+		List<RuleRowEdit> rowEditList = ruleRowEditMapper.select(rEdit);
+
 
 		// 转入rule_table
 		table = tableEdit;
@@ -344,9 +394,11 @@ public class RuleServiceImpl implements RuleService {
 			RuleRow row = new RuleRow(rowEdit);
 			ruleRowMapper.insert(row);
 		}
-		ruleRowEditMapper.deleteByTableId(tableId);
-
-		ruleTableMapper.deleteEditByPrimaryKey(tableId);
+		RuleRowEdit dEdit = new RuleRowEdit();
+		dEdit.setTableId(tableId);
+		//ruleRowEditMapper.deleteByTableId(tableId);
+		ruleRowEditMapper.delete(dEdit);
+		//ruleTableMapper.deleteEditByPrimaryKey(tableId);
 
 		RuleDef ruleDef = ruleDefMapper.selectByPrimaryKey(table.getRuleId());
 		ruleDef.setDeployTime(new Date());
@@ -375,7 +427,8 @@ public class RuleServiceImpl implements RuleService {
 		PageReturnDTO<RuleLogDTO> pageResult = new PageReturnDTO<RuleLogDTO>();
 
 		if (log != null) {
-			int count = ruleLogMapper.countRuleLogSelective(log);
+			//int count = ruleLogMapper.countRuleLogSelective(log);
+			int count = 0;
 			if (count == 0) {
 				pageResult.setRecordsTotal(0);
 				pageResult.setData(new ArrayList<RuleLogDTO>());
@@ -397,8 +450,9 @@ public class RuleServiceImpl implements RuleService {
 				log.setStart(start);				
 				pageResult.setRecordsTotal(count);
 				
-				
-				List<RuleLog> logList = ruleLogMapper.selectRuleLogSelective(log);
+				//TODO
+				//List<RuleLog> logList = ruleLogMapper.selectRuleLogSelective(log);
+				List<RuleLog> logList = ruleLogMapper.selectAll();
 				
 				//设置日志信息
 				List<RuleLogDTO> logDTOList=new ArrayList<RuleLogDTO>();
@@ -455,7 +509,15 @@ public class RuleServiceImpl implements RuleService {
     public List<HisRuleDef> queryHisRuleDefByRuleIdList(List<Long> ruleIdList){
 		List<HisRuleDef> ruleDefList=new ArrayList<HisRuleDef>();
 		if(ruleIdList!=null && ruleIdList.size()>0){
-			ruleDefList=hisRuleDefMapper.selectByRuleIdList(ruleIdList);
+
+			//ruleDefList=hisRuleDefMapper.selectByRuleIdList(ruleIdList);
+			for (Long ruleId : ruleIdList){
+				HisRuleDef hisRuleDef = new HisRuleDef();
+				hisRuleDef.setRuleId(ruleId);
+				List<HisRuleDef> addruleDefList=new ArrayList<HisRuleDef>();
+				addruleDefList = hisRuleDefMapper.select(hisRuleDef);
+				ruleDefList.addAll(addruleDefList);
+			}
 		}
 		
 		return ruleDefList;
@@ -464,7 +526,9 @@ public class RuleServiceImpl implements RuleService {
 	@Override
 	public RuleDef queryRuleByName(String ruleName) {
 		if(!StringUtils.isNullOrEmpty(ruleName)){
-			List<RuleDef> ruleList=ruleDefMapper.selectByName(ruleName);
+			RuleDef ruleDef = new RuleDef();
+			ruleDef.setRuleName(ruleName);
+			List<RuleDef> ruleList=ruleDefMapper.select(ruleDef);
 			if(ruleList!=null && ruleList.size()>0){
 				RuleDef rule=ruleList.get(0);
 				return rule;
@@ -476,7 +540,8 @@ public class RuleServiceImpl implements RuleService {
 	@Override
 	public void addRuleLogList(List<RuleLog> logList) {
 		if(logList!=null && logList.size()>0){
-			ruleLogMapper.batchInsert(logList);
+			ruleLogMapper.insertList(logList);
+			//ruleLogMapper.batchInsert(logList);
 		}
 		
 	}
@@ -491,7 +556,7 @@ public class RuleServiceImpl implements RuleService {
 	@Override
     public Map<String, RuleLogViewerDTO> formatRuleLogViwerDTO(String ruleName, String ruleScript) {
 		Map<String , RuleLogViewerDTO> map = new HashMap<String, RuleLogViewerDTO>();
-		Map<String, RuleBeanEntry> tempFieldMap=RuleConfigHelper.getRuleBeanEntities();
+		Map<String, RuleBeanEntry> tempFieldMap= RuleConfigHelper.getRuleBeanEntities();
 		Map<String, RuleResultEntry> ruleResultEntitiesMap = RuleConfigHelper.getRuleResultEntities();
 		RuleBeanEntry ruleBeanEntry=tempFieldMap.get(ruleName);
 		

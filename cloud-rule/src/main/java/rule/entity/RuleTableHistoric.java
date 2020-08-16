@@ -1,6 +1,8 @@
 package rule.entity;
 
-import com.gzcb.creditcard.gykdh.rule.RuleContants;
+
+
+import rule.RuleContants;
 
 import java.util.Date;
 

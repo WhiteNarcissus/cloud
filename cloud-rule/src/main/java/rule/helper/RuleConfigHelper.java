@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class RuleConfigHelper {
-	public static final String PATH =PropertiesUtils.getProperty("RULE_CONFIG_PATH");
+	public static final String PATH ="";
 	private static Logger logger=LoggerFactory.getLogger(RuleConfigHelper.class);
 	
 	private static final Map<String,RuleBeanEntry> RULE_FIELD_MAP = Collections.synchronizedMap(new LinkedHashMap<String, RuleBeanEntry>());

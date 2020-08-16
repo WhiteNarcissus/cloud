@@ -1,6 +1,7 @@
 package common.utils;
 
-import com.gzcb.creditcard.gykdh.common.contants.LoanContants;
+
+import common.LoanContants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -140,35 +141,35 @@ public class StringUtils {
 		}
 		return 0;
 	}
-	public static String setFileName(String fileName){
-		String batchTimes=(String) JedisUtil.get( LoanContants.JOB_CHACHE_NAME+LoanContants.BATCH_CASE_TYPE_GYKDH_2T);
-		if (StringUtils.isNullOrEmpty(batchTimes)) {
-			batchTimes = LoanContants.BATCH_FIRST_OF_DAY;
-			JedisUtil.set(LoanContants.JOB_CHACHE_NAME,LoanContants.BATCH_CASE_TYPE_GYKDH_2T,batchTimes);
-		}
-		if (LoanContants.BATCH_NEXT_DAY.equals(batchTimes)) {
-			return null;
-		}
-		if (LoanContants.BATCH_FIRST_OF_DAY.equals(batchTimes)) {
-			
-			fileName=fileName+"_01"+".csv";
-		}
-		
-		if (LoanContants.BATCH_SEC_OF_DAY.equals(batchTimes)) {
-			fileName=fileName+"_02"+".csv";
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Date batchDate =DateUtils.getBusinessDate();
-		fileName=fileName.replaceAll("yyyyMMdd", sdf.format(batchDate.getTime()));
-		return fileName;
-	}
-	public static void main(String[] args){
-		//String a="NGGGGGGNNNNNNNrrrNNNN";
-		//System.out.println(StringUtils.acountCharMaxNum(a, 'N'));
-		String num ="66789666";
-		
-		System.out.println(StringUtils.setFileName("fasdfasfas.csv"));
-		System.out.println(StringUtils.countChar(num,'6'));
-		
-	}
+//	public static String setFileName(String fileName){
+//		String batchTimes=(String) JedisUtil.get( LoanContants.JOB_CHACHE_NAME+LoanContants.BATCH_CASE_TYPE_GYKDH_2T);
+//		if (StringUtils.isNullOrEmpty(batchTimes)) {
+//			batchTimes = LoanContants.BATCH_FIRST_OF_DAY;
+//			JedisUtil.set(LoanContants.JOB_CHACHE_NAME,LoanContants.BATCH_CASE_TYPE_GYKDH_2T,batchTimes);
+//		}
+//		if (LoanContants.BATCH_NEXT_DAY.equals(batchTimes)) {
+//			return null;
+//		}
+//		if (LoanContants.BATCH_FIRST_OF_DAY.equals(batchTimes)) {
+//
+//			fileName=fileName+"_01"+".csv";
+//		}
+//
+//		if (LoanContants.BATCH_SEC_OF_DAY.equals(batchTimes)) {
+//			fileName=fileName+"_02"+".csv";
+//		}
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//		Date batchDate =DateUtils.getBusinessDate();
+//		fileName=fileName.replaceAll("yyyyMMdd", sdf.format(batchDate.getTime()));
+//		return fileName;
+//	}
+//	public static void main(String[] args){
+//		//String a="NGGGGGGNNNNNNNrrrNNNN";
+//		//System.out.println(StringUtils.acountCharMaxNum(a, 'N'));
+//		String num ="66789666";
+//
+//		System.out.println(StringUtils.setFileName("fasdfasfas.csv"));
+//		System.out.println(StringUtils.countChar(num,'6'));
+//
+//	}
 }

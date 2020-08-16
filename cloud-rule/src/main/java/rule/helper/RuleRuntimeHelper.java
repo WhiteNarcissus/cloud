@@ -1,21 +1,9 @@
 package rule.helper;
 
-import com.gzcb.creditcard.gykdh.common.contants.LoanContants;
-import com.gzcb.creditcard.gykdh.common.context.SpringBeanLoader;
-import com.gzcb.creditcard.gykdh.common.utils.JedisUtil;
-import com.gzcb.creditcard.gykdh.common.utils.StringUtils;
-import com.gzcb.creditcard.gykdh.dao.rule.RuleDefMapper;
-import com.gzcb.creditcard.gykdh.dao.rule.RuleRowMapper;
-import com.gzcb.creditcard.gykdh.dao.rule.RuleTableMapper;
-import com.gzcb.creditcard.gykdh.rule.dto.config.RuleBeanEntry;
-import com.gzcb.creditcard.gykdh.rule.dto.config.RuleResultEntry;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleRowFieldViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleRowResultViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.dto.viewer.RuleRowViewerDTO;
-import com.gzcb.creditcard.gykdh.rule.entity.IRuleRow;
-import com.gzcb.creditcard.gykdh.rule.entity.RuleDef;
-import com.gzcb.creditcard.gykdh.rule.entity.RuleRow;
-import com.gzcb.creditcard.gykdh.rule.entity.RuleTable;
+
+
+import common.LoanContants;
+import common.utils.StringUtils;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
@@ -32,6 +20,19 @@ import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import rule.dao.RuleDefMapper;
+import rule.dao.RuleRowMapper;
+import rule.dao.RuleTableMapper;
+import rule.dto.config.RuleBeanEntry;
+import rule.dto.config.RuleResultEntry;
+import rule.dto.viewer.RuleRowFieldViewerDTO;
+import rule.dto.viewer.RuleRowResultViewerDTO;
+import rule.dto.viewer.RuleRowViewerDTO;
+import rule.entity.IRuleRow;
+import rule.entity.RuleDef;
+import rule.entity.RuleRow;
+import rule.entity.RuleTable;
 
 import java.io.*;
 import java.util.*;
@@ -39,11 +40,14 @@ import java.util.*;
 public class RuleRuntimeHelper {
 	private static Logger logger=LoggerFactory.getLogger(RuleRuntimeHelper.class);
 
-	private static RuleTableMapper ruleTableMapper=(RuleTableMapper)SpringBeanLoader.getBean("ruleTableMapper");
+	@Autowired
+	private static RuleTableMapper ruleTableMapper ;//=(RuleTableMapper)SpringBeanLoader.getBean("ruleTableMapper");
+	@Autowired
+	private static RuleRowMapper ruleRowMapper; //=(RuleRowMapper)SpringBeanLoader.getBean("ruleRowMapper");
+	@Autowired
+	private  static RuleDefMapper ruleDefMapper; //=(RuleDefMapper)SpringBeanLoader.getBean("ruleDefMapper");
 
-	private static RuleRowMapper ruleRowMapper=(RuleRowMapper)SpringBeanLoader.getBean("ruleRowMapper");
 
-	private static RuleDefMapper ruleDefMapper=(RuleDefMapper)SpringBeanLoader.getBean("ruleDefMapper");
 
 
 
@@ -76,8 +80,8 @@ public class RuleRuntimeHelper {
 	@SuppressWarnings("unchecked")
 	private static Collection<KnowledgePackage> getRuleBase(final Long ruleId){
 
-		List<String> list = (List<String>) JedisUtil.get(LoanContants.RULE_CHACHE_NAME, ruleId.toString());
-
+//		List<String> list = (List<String>) JedisUtil.get(LoanContants.RULE_CHACHE_NAME, ruleId.toString());
+		List<String> list = null ;
 		if (list == null) {
 			KnowledgeBuilder knoledgeBuilder= KnowledgeBuilderFactory.newKnowledgeBuilder();
 			RuleDef ruleDef = ruleDefMapper.selectByPrimaryKey(ruleId);
@@ -131,7 +135,7 @@ public class RuleRuntimeHelper {
 
 		}else{
 			logger.error("Rule[{}] script not found!",ruleId);
-			JedisUtil.set(LoanContants.RULE_CHACHE_NAME, ruleId.toString());
+//			JedisUtil.set(LoanContants.RULE_CHACHE_NAME, ruleId.toString());
 		}
 	}
 
@@ -177,7 +181,7 @@ public class RuleRuntimeHelper {
 				}
 			});
 
-			JedisUtil.set(LoanContants.RULE_CHACHE_NAME, ruleId.toString(), list);
+//			JedisUtil.set(LoanContants.RULE_CHACHE_NAME, ruleId.toString(), list);
 		}
 
 	}
@@ -229,13 +233,15 @@ public class RuleRuntimeHelper {
 	}
 
 	public static String getDrl(RuleDef ruleDef){
-		Map<String,RuleBeanEntry> ruleBeanMap = RuleConfigHelper.getRuleBeanEntities();
-		Map<String,RuleResultEntry> resultMap = RuleConfigHelper.getRuleResultEntities();
+		Map<String, RuleBeanEntry> ruleBeanMap = RuleConfigHelper.getRuleBeanEntities();
+		Map<String, RuleResultEntry> resultMap = RuleConfigHelper.getRuleResultEntities();
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("package _" + ruleDef.getRuleId() + ";\n");
 		//后发布的规则优先级更高，所以需要放到前面入堆栈
-		List<RuleTable> ruleTableList=ruleTableMapper.selectRuleTableByRuleId(ruleDef.getRuleId());
+		RuleTable ruleTable = new RuleTable();
+		ruleTable.setRuleId(ruleDef.getRuleId());
+		List<RuleTable> ruleTableList=ruleTableMapper.select(ruleTable);
 		
 		
 		StringBuffer sbCondition = new StringBuffer();
@@ -244,8 +250,11 @@ public class RuleRuntimeHelper {
 		Map<String,String> classMap = new HashMap<String, String>();
 		
 		for(RuleTable table:ruleTableList){
-			i++;						
-			List<RuleRow> ruleRows = ruleRowMapper.selectRuleRowByTableId(table.getTableId());
+			i++;
+			RuleRow rr = new RuleRow();
+			rr.setTableId(table.getTableId());
+
+			List<RuleRow> ruleRows = ruleRowMapper.select(rr);
 			List<IRuleRow> iRuleRows=new ArrayList<IRuleRow>();
 			for(RuleRow ruleRow:ruleRows){
 				IRuleRow iruleRow=ruleRow;
@@ -293,7 +302,7 @@ public class RuleRuntimeHelper {
 				}
 
 				sbCondition.append("\tthen\n");
-				for(Iterator<RuleRowResultViewerDTO> itr = row.getRowResults().values().iterator();itr.hasNext();){
+				for(Iterator<RuleRowResultViewerDTO> itr = row.getRowResults().values().iterator(); itr.hasNext();){
 					RuleRowResultViewerDTO result = itr.next();
 					
 					RuleResultEntry resultEntry = resultMap.get(result.getResultKey());

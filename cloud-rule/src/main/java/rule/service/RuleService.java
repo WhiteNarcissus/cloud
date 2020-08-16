@@ -2,6 +2,9 @@ package rule.service;
 
 
 
+import common.PageObjectDTO;
+import common.PageReturnDTO;
+import common.ReturnObjectDTO;
 import rule.dto.RuleLogDTO;
 import rule.dto.config.RuleFieldEntry;
 import rule.dto.viewer.RuleLogViewerDTO;
@@ -25,7 +28,7 @@ public interface RuleService {
 
 	public RuleTable getRuleTable(Long tableId, String status);
 
-//	public ReturnObjectDTO addRuleTable(RuleTable ruleTable);
+	public ReturnObjectDTO addRuleTable(RuleTable ruleTable);
 
 	public List<RuleRow> queryRuleRowByTableId(Long tableId);
 
@@ -41,8 +44,7 @@ public interface RuleService {
                                Map<String, String[]> valuesMap, Map<String, String[]> operatersMap, Map<String, String[]> resultMap);
 
 	public void deploy(final Long tableId, final Long userId);
-
-//	public PageReturnDTO<RuleLogDTO> queryRuleLog(RuleLogCriteria log, PageObjectDTO pageObjectDTO);
+	public PageReturnDTO<RuleLogDTO> queryRuleLog(RuleLogCriteria log, PageObjectDTO pageObjectDTO);
 
 	public List<HisRuleDef> queryHisRuleDefByRuleIdList(List<Long> ruleIdList);
 

@@ -1,6 +1,7 @@
 package rule.entity;
 
-import com.gzcb.creditcard.gykdh.common.utils.StringUtils;
+
+import common.utils.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
